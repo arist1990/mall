@@ -25,6 +25,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -94,13 +95,21 @@ public class UmsAdminServiceImpl implements UmsAdminService {
         return umsAdmin;
     }
 
+    public static void main(String[] args) {
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodeString = passwordEncoder.encode("abc123456");
+        System.out.println("abc123456 加密后的密码：" + encodeString);
+    }
+
     @Override
     public String login(String username, String password) {
         String token = null;
         //密码需要客户端加密后传递
         try {
             UserDetails userDetails = loadUserByUsername(username);
-            if(!passwordEncoder.matches(password,userDetails.getPassword())){
+//            System.out.println("查出来的密码：" + userDetails.getPassword());
+//            System.out.println("abc123456加密后：" + passwordEncoder.encode("abc123456"));
+            if(!passwordEncoder.matches(password, userDetails.getPassword())){
                 Asserts.fail("密码不正确");
             }
             if(!userDetails.isEnabled()){

@@ -1,6 +1,7 @@
 package com.macro.mall.security.config;
 
 import com.macro.mall.security.component.*;
+import com.macro.mall.security.util.CustomPasswordEncoder;
 import com.macro.mall.security.util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -72,6 +73,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+//        return new CustomPasswordEncoder();
     }
 
     @Bean
